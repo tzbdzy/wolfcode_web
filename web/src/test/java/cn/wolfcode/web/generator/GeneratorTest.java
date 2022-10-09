@@ -32,25 +32,25 @@ public class GeneratorTest {
     public static void main(String[] args) {
         GeneratorUtils.generator(
                 "web",
-                "com.nebula.web.modules",
-                "demomodule",
+                "cn.wolfcode.web.modules",
+                "custinfo",
                 DbType.MYSQL,
-                "/Users/chenshiyun/Desktop/code",
+                "C:\\Users\\Administrator\\Desktop\\Soft_Work\\gen_code2", //生成到哪里去
                 // 页面上的父上下文
                 // 自己的上下文
-                "1111",
-                "Mode演示菜单",
+                "1111", //菜单的父级ID
+                "企业客户管理",
                 null,
-                "sys",
-                "demotest",
-                "陈天狼",
+                "cust",
+                "custinfo",
+                "haiyang",
                 "127.0.0.1",
                 "3306",
-                "nojoke",
+                "nojoke?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf8", //mysql8.0之后才需要加时区
                 "root",
-                "12345678",
+                "123456",
                 new String[]{"bmd_", "mp_", "SYS_"},
-                new String[]{"DEMO_TEST"},false
+                new String[]{"tb_customer"},false
         );
     }
 

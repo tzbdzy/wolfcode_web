@@ -20,6 +20,7 @@ public class Demo implements Serializable {
     private String id;
     private String name;
     private String info;
+    private String age;
     private LocalDateTime createTime;
 
 }
