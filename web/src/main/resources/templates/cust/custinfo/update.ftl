@@ -22,16 +22,16 @@
             <div class="layui-row layui-col-space10 layui-form-item">
 
 
-                <div class="layui-col-lg6">
-                        <label class="layui-form-label">id</label>
-                    <div class="layui-input-block">
-                        <input type="text"
-                               name="id"
-                               value="${obj.id}"
-                               autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
+<#--                <div class="layui-col-lg6">-->
+<#--                        <label class="layui-form-label">id</label>-->
+<#--                    <div class="layui-input-block">-->
+<#--                        <input type="text"-->
+<#--                               name="id"-->
+<#--                               value="${obj.id}"-->
+<#--                               autocomplete="off"-->
+<#--                               class="layui-input">-->
+<#--                    </div>-->
+<#--                </div>-->
 
 
                 <div class="layui-col-lg6">
@@ -63,6 +63,7 @@
                     <div class="layui-input-block">
                         <input type="text"
                                name="registerDate"
+                               id="registerDate"
                                value="${obj.registerDate}"
                                autocomplete="off"
                                class="layui-input">
@@ -71,25 +72,38 @@
 
 
                 <div class="layui-col-lg6">
-                        <label class="layui-form-label">经营状态, 0 开业、1 注销、2 破产</label>
+                        <label class="layui-form-label">经营状态:</label>
                     <div class="layui-input-block">
-                        <input type="text"
-                               name="openStatus"
-                               value="${obj.openStatus}"
-                               autocomplete="off"
-                               class="layui-input">
+                        <select>
+                            <option <#if obj.openStatus=0>selected</#if> value="0">开业</option>
+                            <option <#if obj.openStatus=1>selected</#if> value="1">注销</option>
+                            <option <#if obj.openStatus=2>selected</#if> value="2">破产</option>
+                        </select>
                     </div>
+
+
                 </div>
 
 
                 <div class="layui-col-lg6">
-                        <label class="layui-form-label">所属地区省份</label>
+                    <label class="layui-form-label">所属地区省份</label>
                     <div class="layui-input-block">
-                        <input type="text"
-                               name="province"
-                               value="${obj.province}"
-                               autocomplete="off"
-                               class="layui-input">
+                        <#--                        <input type="text"-->
+                        <#--                               name="province"-->
+                        <#--                               value="${obj.province}"-->
+                        <#--                               autocomplete="off"-->
+                        <#--                               class="layui-input">-->
+                        <select name="province">
+                            <option>--请选择--</option>
+                            <#list citys as city>
+                                <#if city.key=obj.province>
+                                    <option selected value="${city.key}">${city.value}</option>
+                                <#else>
+                                    <option value="${city.key}">${city.value}</option>
+                                </#if>
+
+                            </#list>
+                        </select>
                     </div>
                 </div>
 
@@ -142,40 +156,42 @@
                 </div>
 
 
-                <div class="layui-col-lg6">
-                        <label class="layui-form-label">录入时间</label>
-                    <div class="layui-input-block">
-                        <input type="text"
-                               name="inputTime"
-                               value="${obj.inputTime}"
-                               autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
+<#--                <div class="layui-col-lg6">-->
+<#--                        <label class="layui-form-label">录入时间</label>-->
+<#--                    <div class="layui-input-block">-->
+<#--                        <input type="text"-->
+<#--                               name="inputTime"-->
+<#--                               id="registerDate"-->
+<#--                               value="${obj.inputTime}"-->
+<#--                               autocomplete="off"-->
+<#--                               class="layui-input">-->
+<#--                    </div>-->
+<#--                </div>-->
 
 
-                <div class="layui-col-lg6">
-                        <label class="layui-form-label">修改时间</label>
-                    <div class="layui-input-block">
-                        <input type="text"
-                               name="updateTime"
-                               value="${obj.updateTime}"
-                               autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
+<#--                <div class="layui-col-lg6">-->
+<#--                        <label class="layui-form-label">修改时间</label>-->
+<#--                    <div class="layui-input-block">-->
+<#--                        <input type="text"-->
+<#--                               name="updateTime"-->
+<#--                               id="registerDate"-->
+<#--                               value="${obj.updateTime}"-->
+<#--                               autocomplete="off"-->
+<#--                               class="layui-input">-->
+<#--                    </div>-->
+<#--                </div>-->
 
 
-                <div class="layui-col-lg6">
-                        <label class="layui-form-label">录入人</label>
-                    <div class="layui-input-block">
-                        <input type="text"
-                               name="inputUserId"
-                               value="${obj.inputUserId}"
-                               autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
+<#--                <div class="layui-col-lg6">-->
+<#--                        <label class="layui-form-label">录入人</label>-->
+<#--                    <div class="layui-input-block">-->
+<#--                        <input type="text"-->
+<#--                               name="inputUserId"-->
+<#--                               value="${obj.inputUserId}"-->
+<#--                               autocomplete="off"-->
+<#--                               class="layui-input">-->
+<#--                    </div>-->
+<#--                </div>-->
 
 
                 <div class="layui-form-item">

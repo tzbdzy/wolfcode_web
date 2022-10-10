@@ -5,7 +5,7 @@ layui.use(['form', 'layer','laydate'], function () {
         $ = layui.jquery;
 
     laydate.render({
-        elem:'#registerDate'
+        elem:'#registerDate',
     });
 
     form.on('submit(Add-filter)', function (data) {
@@ -25,9 +25,12 @@ layui.use(['form', 'layer','laydate'], function () {
                 });
             },
             error: function (e) {
-                layer.msg(e.responseJSON.message, {icon: 2});
+                if (e.responseJSON.errCode === 1003){
+                    layer.msg(e.responseJSON.data.toString(), {icon: 2});
+                }else{
+                    layer.msg(e.responseJSON.message, {icon: 2});
+                }
             }
-
         });
         return false;
     });

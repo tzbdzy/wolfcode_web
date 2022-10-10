@@ -3,13 +3,16 @@ layui.use(['form', 'layer','laydate'], function () {
         layer = layui.layer,
         laydate = layui.laydate,
         $ = layui.jquery;
+
     laydate.render({
         elem:'#registerDate',
+        type:'datetime'
     });
+
 
     form.on('submit(Add-filter)', function (data) {
         $.ajax({
-            url: web.rootPath() + "custinfo/update",
+            url: web.rootPath() + "custlink/update",
             contentType: "application/json",
             type: "put",
             data: JSON.stringify(data.field),

@@ -33,24 +33,24 @@ public class GeneratorTest {
         GeneratorUtils.generator(
                 "web",
                 "cn.wolfcode.web.modules",
-                "custinfo",
+                "custlink",
                 DbType.MYSQL,
-                "C:\\Users\\Administrator\\Desktop\\Soft_Work\\gen_code2", //生成到哪里去
+                "C:\\Users\\Administrator\\Desktop\\Soft_Work\\gen_code4", //生成到哪里去
                 // 页面上的父上下文
                 // 自己的上下文
                 "1111", //菜单的父级ID
-                "企业客户管理",
+                "客户联系人管理",
                 null,
-                "cust",
-                "custinfo",
-                "haiyang",
+                "user",
+                "custlink",
+                "lailin",
                 "127.0.0.1",
                 "3306",
                 "nojoke?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf8", //mysql8.0之后才需要加时区
                 "root",
                 "123456",
                 new String[]{"bmd_", "mp_", "SYS_"},
-                new String[]{"tb_customer"},false
+                new String[]{"tb_cust_linkman"},false
         );
     }
 

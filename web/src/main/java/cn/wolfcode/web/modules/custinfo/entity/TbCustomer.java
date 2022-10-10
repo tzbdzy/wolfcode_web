@@ -1,5 +1,11 @@
 package cn.wolfcode.web.modules.custinfo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import link.ahsj.core.annotations.AddGroup;
+import link.ahsj.core.annotations.UpdateGroup;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -21,6 +27,8 @@ public class TbCustomer implements Serializable {
     /**
      * 企业名称
      */
+    @NotBlank(message = "请填写企业名称!",groups =  {AddGroup.class, UpdateGroup.class})
+    @Length(max = 10,message = "企业名称不能超过10",groups =  {AddGroup.class, UpdateGroup.class})
     private String customerName;
 
     /**
@@ -42,6 +50,24 @@ public class TbCustomer implements Serializable {
      * 所属地区省份
      */
     private String province;
+
+    /**
+     * 所属地区省份名字
+     */
+    @TableField(exist = false)
+    private String provinceName;
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
 
     /**
      * 注册资本,(万元)

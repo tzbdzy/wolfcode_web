@@ -1,10 +1,10 @@
-package cn.wolfcode.web.modules.custinfo.controller;
+package cn.wolfcode.web.modules.custlink.controller;
 
 import cn.wolfcode.web.commons.entity.LayuiPage;
-import cn.wolfcode.web.commons.utils.CityUtils;
 import cn.wolfcode.web.commons.utils.LayuiTools;
 import cn.wolfcode.web.commons.utils.SystemCheckUtils;
 import cn.wolfcode.web.modules.BaseController;
+import cn.wolfcode.web.modules.custinfo.controller.TbCustomerController;
 import cn.wolfcode.web.modules.custinfo.entity.TbCustomer;
 import cn.wolfcode.web.modules.custinfo.service.ITbCustomerService;
 import cn.wolfcode.web.modules.log.LogModules;
@@ -12,6 +12,10 @@ import cn.wolfcode.web.modules.sys.entity.SysUser;
 import cn.wolfcode.web.modules.sys.form.LoginForm;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import cn.wolfcode.web.modules.custlink.entity.TbCustLinkman;
+import cn.wolfcode.web.modules.custlink.service.ITbCustLinkmanService;
+
 import com.mysql.cj.util.StringUtils;
 import link.ahsj.core.annotations.AddGroup;
 import link.ahsj.core.annotations.SameUrlData;
@@ -31,78 +35,69 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author lzg
+ * @author lailin
  * @since 2022-10-09
  */
 @Controller
-@RequestMapping("custinfo")
-public class TbCustomerController extends BaseController {
+@RequestMapping("custlink")
+public class TbCustLinkmanController extends BaseController {
 
     @Autowired
-    private ITbCustomerService entityService;
+    private ITbCustLinkmanService entityService;
 
-    private static final String LogModule = "TbCustomer";
+    //客户业务类
+    @Autowired
+    private ITbCustomerService customerService;
+
+    private static final String LogModule = "TbCustLinkman";
 
     @GetMapping("/list.html")
     public String list() {
-        return "cust/custinfo/list";
+        return "cust/custlink/list";
     }
 
     @RequestMapping("/add.html")
-    @PreAuthorize("hasAuthority('cust:custinfo:add')")
+    @PreAuthorize("hasAuthority('cust:custlink:add')")
     public ModelAndView toAdd(ModelAndView mv) {
+        //获取所有企业客户信息，返回到页面上
+        List<TbCustomer> list = customerService.list();
+        mv.addObject("custs",list);
 
-        mv.addObject("citys", CityUtils.citys);
-        mv.setViewName("cust/custinfo/add");
+        mv.setViewName("cust/custlink/add");
         return mv;
     }
 
     @GetMapping("/{id}.html")
-    @PreAuthorize("hasAuthority('cust:custinfo:update')")
+    @PreAuthorize("hasAuthority('cust:custlink:update')")
     public ModelAndView toUpdate(@PathVariable("id") String id, ModelAndView mv) {
-        mv.setViewName("cust/custinfo/update");
+        //获取所有企业客户信息，返回到页面上
+        List<TbCustomer> list = customerService.list();
+        mv.addObject("custs",list);
+
+        mv.setViewName("cust/custlink/update");
         mv.addObject("obj", entityService.getById(id));
         mv.addObject("id", id);
-        mv.addObject("citys", CityUtils.citys);
         return mv;
     }
 
     @RequestMapping("list")
-    @PreAuthorize("hasAuthority('cust:custinfo:list')")
+    @PreAuthorize("hasAuthority('cust:custlink:list')")
     public ResponseEntity page(LayuiPage layuiPage,String parameterName) {
         SystemCheckUtils.getInstance().checkMaxPage(layuiPage);
-
         IPage page = new Page<>(layuiPage.getPage(), layuiPage.getLimit());
-
         IPage page1 = entityService.lambdaQuery()
-                .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustomer::getCustomerName,parameterName)
+                .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName), TbCustLinkman::getLinkman,parameterName)//联系人
                 .or()
-                .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustomer::getLegalLeader,parameterName)
+                .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustLinkman::getPhone,parameterName)//电话
                 .page(page);
-
-        //省份查询回显
-        List<TbCustomer> records = page.getRecords();
-        for (TbCustomer record:records){
-            String cityValue = CityUtils.getCityValue(record.getProvince());
-            record.setProvinceName(cityValue);
-        }
-
-
         return ResponseEntity.ok(LayuiTools.toLayuiTableModel(page1));
     }
 
     @SameUrlData
     @PostMapping("save")
     @SysLog(value = LogModules.SAVE, module =LogModule)
-    @PreAuthorize("hasAuthority('cust:custinfo:add')")
-    public ResponseEntity<ApiModel> save(@Validated({AddGroup.class}) @RequestBody TbCustomer entity, HttpServletRequest request) {
-
-        //录入时间
-        entity.setInputTime(LocalDateTime.now());
-        //录入人
-        SysUser loginUser = (SysUser)request.getSession().getAttribute(LoginForm.LOGIN_USER_KEY);
-        entity.setInputUserId(loginUser.getUserId());
-
+    @PreAuthorize("hasAuthority('cust:custlink:add')")
+    public ResponseEntity<ApiModel> save(@Validated({AddGroup.class}) @RequestBody TbCustLinkman entity) {
         entityService.save(entity);
         return ResponseEntity.ok(ApiModel.ok());
     }
@@ -110,17 +105,15 @@ public class TbCustomerController extends BaseController {
     @SameUrlData
     @SysLog(value = LogModules.UPDATE, module = LogModule)
     @PutMapping("update")
-    @PreAuthorize("hasAuthority('cust:custinfo:update')")
-    public ResponseEntity<ApiModel> update(@Validated({UpdateGroup.class}) @RequestBody TbCustomer entity) {
-        //修改时间
-        entity.setUpdateTime(LocalDateTime.now());
+    @PreAuthorize("hasAuthority('cust:custlink:update')")
+    public ResponseEntity<ApiModel> update(@Validated({UpdateGroup.class}) @RequestBody TbCustLinkman entity) {
         entityService.updateById(entity);
         return ResponseEntity.ok(ApiModel.ok());
     }
 
     @SysLog(value = LogModules.DELETE, module = LogModule)
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('cust:custinfo:delete')")
+    @PreAuthorize("hasAuthority('cust:custlink:delete')")
     public ResponseEntity<ApiModel> delete(@PathVariable("id") String id) {
         entityService.removeById(id);
         return ResponseEntity.ok(ApiModel.ok());
