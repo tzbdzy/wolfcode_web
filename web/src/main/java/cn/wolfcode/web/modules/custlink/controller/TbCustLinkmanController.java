@@ -52,8 +52,13 @@ public class TbCustLinkmanController extends BaseController {
     private static final String LogModule = "TbCustLinkman";
 
     @GetMapping("/list.html")
-    public String list() {
-        return "cust/custlink/list";
+    public ModelAndView list(ModelAndView mv) {
+        //获取所有企业客户信息，返回到页面上
+        List<TbCustomer> list = customerService.list();
+        mv.addObject("custs",list);
+
+        mv.setViewName("cust/custlink/list");
+        return mv;
     }
 
     @RequestMapping("/add.html")
@@ -82,10 +87,11 @@ public class TbCustLinkmanController extends BaseController {
 
     @RequestMapping("list")
     @PreAuthorize("hasAuthority('cust:custlink:list')")
-    public ResponseEntity page(LayuiPage layuiPage,String parameterName) {
+    public ResponseEntity page(LayuiPage layuiPage,String parameterName,String custId) {
         SystemCheckUtils.getInstance().checkMaxPage(layuiPage);
         IPage page = new Page<>(layuiPage.getPage(), layuiPage.getLimit());
-        IPage page1 = entityService.lambdaQuery()
+        IPage page1 = entityService.lambdaQuery().
+                eq(!StringUtils.isEmptyOrWhitespaceOnly(custId), TbCustLinkman::getCustId,custId)
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName), TbCustLinkman::getLinkman,parameterName)//联系人
                 .or()
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustLinkman::getPhone,parameterName)//电话

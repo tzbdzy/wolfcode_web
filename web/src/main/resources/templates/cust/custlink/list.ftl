@@ -33,6 +33,23 @@
                                 </div>
                             </div>
 
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">所属企业</label>
+                                    <div class="layui-input-block input-box">
+<#--                                        <input type="text" name="parameterName" placeholder="请输入"-->
+<#--                                               autocomplete="off"-->
+<#--                                               class="layui-input">-->
+
+                                        <select name="custId">
+                                            <option>--请选择--</option>
+                                            <#list custs as cust>
+                                                <option value="${cust.id}">${cust.customerName}</option>
+                                            </#list>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                             <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-normal" id="SearchBtn"
                                         data-type="reload">搜索
