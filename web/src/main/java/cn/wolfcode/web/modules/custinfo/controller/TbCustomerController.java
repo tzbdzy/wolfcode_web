@@ -44,8 +44,10 @@ public class TbCustomerController extends BaseController {
     private static final String LogModule = "TbCustomer";
 
     @GetMapping("/list.html")
-    public String list() {
-        return "cust/custinfo/list";
+    public ModelAndView list(ModelAndView mv) {
+        mv.addObject("citys", CityUtils.citys);
+        mv.setViewName("cust/custinfo/list");
+        return mv;
     }
 
     @RequestMapping("/add.html")
@@ -69,12 +71,13 @@ public class TbCustomerController extends BaseController {
 
     @RequestMapping("list")
     @PreAuthorize("hasAuthority('cust:custinfo:list')")
-    public ResponseEntity page(LayuiPage layuiPage,String parameterName) {
+    public ResponseEntity page(LayuiPage layuiPage,String parameterName,String cityId) {
         SystemCheckUtils.getInstance().checkMaxPage(layuiPage);
 
         IPage page = new Page<>(layuiPage.getPage(), layuiPage.getLimit());
 
         IPage page1 = entityService.lambdaQuery()
+                .eq(!StringUtils.isEmptyOrWhitespaceOnly(cityId),TbCustomer::getProvince,cityId)
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustomer::getCustomerName,parameterName)
                 .or()
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustomer::getLegalLeader,parameterName)
