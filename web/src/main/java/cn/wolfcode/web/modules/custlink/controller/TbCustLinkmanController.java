@@ -2,6 +2,7 @@ package cn.wolfcode.web.modules.custlink.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.wolfcode.web.commons.entity.LayuiPage;
 import cn.wolfcode.web.commons.utils.LayuiTools;
 import cn.wolfcode.web.commons.utils.PoiExportHelper;
@@ -39,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lailin
@@ -102,6 +104,24 @@ public class TbCustLinkmanController extends BaseController {
                 .or()
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustLinkman::getPhone,parameterName)//电话
                 .page(page);
+
+
+        //判断联系人集合不为空的情况下
+        if(CollectionUtil.isNotEmpty(page.getRecords())) {
+            List<TbCustLinkman> records = page.getRecords();//拿到所有的数据集合
+            records.forEach(obj -> {
+                //得到客户id
+                String custId1 = obj.getCustId();
+                //根据客户id 查询出 企业客户名称
+                TbCustomer customer = customerService.getById(custId1);
+                if (Objects.nonNull(customer)) {
+                    //并赋值
+                    obj.setCustomerName(customer.getCustomerName());
+                }
+
+            });
+        }
+
         return ResponseEntity.ok(LayuiTools.toLayuiTableModel(page1));
     }
 
