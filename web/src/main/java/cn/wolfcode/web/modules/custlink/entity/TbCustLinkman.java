@@ -1,5 +1,7 @@
 package cn.wolfcode.web.modules.custlink.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -25,11 +27,13 @@ public class TbCustLinkman implements Serializable {
     /**
      * 联系人名字
      */
+    @Excel(name = "联系人的姓名")
     private String linkman;
 
     /**
      * 性别 1 男 0 女
      */
+    @Excel(name = "性别")
     private Integer sex;
 
     /**
@@ -40,7 +44,9 @@ public class TbCustLinkman implements Serializable {
     /**
      * 联系人电话
      */
+    @Excel(name = "电话")
     private String phone;
+
 
     /**
      * 职位

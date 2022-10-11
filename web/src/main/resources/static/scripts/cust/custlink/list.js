@@ -90,6 +90,26 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
                 content: web.rootPath() + 'custlink/add.html'
             });
         }
+
+        if(obj.event == 'export'){
+            var eix;
+            var parameterName = $("#searchForm").find("input[name='parameterName']").val().trim();
+            var custId = $("#searchForm").find("select[name='custId']").val().trim();
+            var url = web.rootPath() + 'custlink/export?parameterName=' + parameterName + '&custId=' + custId
+            $.fileDownload(url, {
+                httpMethod: 'POST',
+                prepareCallback: function (url) {
+                    eix = layer.load(2);
+                },
+                successCallback: function (url) {
+                    layer.close(eix)
+                },
+                failCallback: function (html, url) {
+                    layer.close(eix)
+                    layer.msg("导出失败", {icon: 2});
+                }
+            });
+        }
         ;
     });
     //监听工具条
