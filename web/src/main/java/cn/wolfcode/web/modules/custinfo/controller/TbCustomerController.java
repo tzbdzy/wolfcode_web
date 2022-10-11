@@ -18,6 +18,7 @@ import link.ahsj.core.annotations.SameUrlData;
 import link.ahsj.core.annotations.SysLog;
 import link.ahsj.core.annotations.UpdateGroup;
 import link.ahsj.core.entitys.ApiModel;
+import link.ahsj.core.exception.AppServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,6 +107,13 @@ public class TbCustomerController extends BaseController {
         SysUser loginUser = (SysUser)request.getSession().getAttribute(LoginForm.LOGIN_USER_KEY);
         entity.setInputUserId(loginUser.getUserId());
 
+        //完善企业新增用户重复问题
+        Integer count = entityService.lambdaQuery()
+                .eq(TbCustomer::getCustomerName,entity.getCustomerName())
+                .ne(TbCustomer::getId,entity.getId()).count();
+        if (count>0){
+            throw new AppServerException("该客户已存在！");
+        }
         entityService.save(entity);
         return ResponseEntity.ok(ApiModel.ok());
     }
