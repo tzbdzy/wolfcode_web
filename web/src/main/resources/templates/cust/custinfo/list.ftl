@@ -46,6 +46,18 @@
                             </div>
 
                             <div class="layui-inline">
+                                <label class="layui-form-label">经营状态</label>
+                                <div class="layui-input-block input-box">
+                                    <select name="openStatus">
+                                        <option value="">--请选择--</option>
+                                        <option <#if obj.openStatus=0>selected</#if> value="0">开业</option>
+                                        <option <#if obj.openStatus=1>selected</#if> value="1">注销</option>
+                                        <option <#if obj.openStatus=2>selected</#if> value="2">破产</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-normal" id="SearchBtn"
                                         data-type="reload">搜索
                                 </button>

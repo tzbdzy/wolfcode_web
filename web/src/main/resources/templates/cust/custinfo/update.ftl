@@ -74,7 +74,7 @@
                 <div class="layui-col-lg6">
                         <label class="layui-form-label">经营状态:</label>
                     <div class="layui-input-block">
-                        <select>
+                        <select name="openStatus">
                             <option <#if obj.openStatus=0>selected</#if> value="0">开业</option>
                             <option <#if obj.openStatus=1>selected</#if> value="1">注销</option>
                             <option <#if obj.openStatus=2>selected</#if> value="2">破产</option>

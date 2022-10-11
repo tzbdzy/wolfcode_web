@@ -72,12 +72,13 @@ public class TbCustomerController extends BaseController {
 
     @RequestMapping("list")
     @PreAuthorize("hasAuthority('cust:custinfo:list')")
-    public ResponseEntity page(LayuiPage layuiPage,String parameterName,String cityId) {
+    public ResponseEntity page(LayuiPage layuiPage,String parameterName,String cityId,String openStatus) {
         SystemCheckUtils.getInstance().checkMaxPage(layuiPage);
 
         IPage page = new Page<>(layuiPage.getPage(), layuiPage.getLimit());
 
         IPage page1 = entityService.lambdaQuery()
+                .eq(!StringUtils.isEmptyOrWhitespaceOnly(openStatus),TbCustomer::getOpenStatus,openStatus)
                 .eq(!StringUtils.isEmptyOrWhitespaceOnly(cityId),TbCustomer::getProvince,cityId)
                 .like(!StringUtils.isEmptyOrWhitespaceOnly(parameterName),TbCustomer::getCustomerName,parameterName)
                 .or()
@@ -110,7 +111,7 @@ public class TbCustomerController extends BaseController {
         //完善企业新增用户重复问题
         Integer count = entityService.lambdaQuery()
                 .eq(TbCustomer::getCustomerName,entity.getCustomerName())
-                .ne(TbCustomer::getId,entity.getId()).count();
+                .ne(TbCustomer::getId,entity.getId()).count();  //防止修改出错
         if (count>0){
             throw new AppServerException("该客户已存在！");
         }
