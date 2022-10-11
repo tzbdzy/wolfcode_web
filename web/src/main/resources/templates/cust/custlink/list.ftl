@@ -41,7 +41,7 @@
 <#--                                               class="layui-input">-->
 
                                         <select name="custId">
-                                            <option>--请选择--</option>
+                                            <option value="">--请选择--</option>
                                             <#list custs as cust>
                                                 <option value="${cust.id}">${cust.customerName}</option>
                                             </#list>

@@ -7,6 +7,8 @@ import cn.wolfcode.web.commons.utils.SystemCheckUtils;
 import cn.wolfcode.web.modules.BaseController;
 import cn.wolfcode.web.modules.custinfo.entity.TbCustomer;
 import cn.wolfcode.web.modules.custinfo.service.ITbCustomerService;
+import cn.wolfcode.web.modules.custlink.entity.TbCustLinkman;
+import cn.wolfcode.web.modules.custlink.service.ITbCustLinkmanService;
 import cn.wolfcode.web.modules.log.LogModules;
 import cn.wolfcode.web.modules.sys.entity.SysUser;
 import cn.wolfcode.web.modules.sys.form.LoginForm;
@@ -41,6 +43,9 @@ public class TbCustomerController extends BaseController {
 
     @Autowired
     private ITbCustomerService entityService;
+
+    @Autowired
+    private ITbCustLinkmanService custLinkmanService;
 
     private static final String LogModule = "TbCustomer";
 
@@ -135,6 +140,9 @@ public class TbCustomerController extends BaseController {
     @PreAuthorize("hasAuthority('cust:custinfo:delete')")
     public ResponseEntity<ApiModel> delete(@PathVariable("id") String id) {
         entityService.removeById(id);
+
+        //删除企业客户时递归删除企业联系人
+        custLinkmanService.lambdaUpdate().eq(TbCustLinkman::getCustId, id).remove();
         return ResponseEntity.ok(ApiModel.ok());
     }
 
