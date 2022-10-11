@@ -1,5 +1,6 @@
 package cn.wolfcode.web.modules.sys.conctroller;
 
+import cn.wolfcode.web.modules.home.service.IHomeService;
 import cn.wolfcode.web.modules.sys.service.MenuService;
 import cn.wolfcode.web.modules.sys.form.LoginForm;
 import cn.wolfcode.web.modules.sys.entity.SysMenu;
@@ -24,6 +25,9 @@ public class IndexController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private IHomeService homeService;
+
     @GetMapping(value = {"", "/", "index"})
     public ModelAndView index(ModelAndView mv, HttpServletRequest request,String menuType) {
         if(!"horizontal".equals(menuType)){
@@ -43,7 +47,14 @@ public class IndexController {
 
 
     @GetMapping("/main.html")
-    public String mainPage() {
-        return "main";
+    public ModelAndView mainPage(ModelAndView mv) {
+
+
+        mv.addObject("userCount", homeService.getUserCount());//用户量
+        mv.addObject("operationLogCount", homeService.getOperationLogCount());//访问量
+        mv.addObject("loginCount", homeService.getLoginCount());//登录量
+        mv.addObject("custInfoCount", homeService.getCustInfoCount());//企业客户量
+        mv.setViewName("main");
+        return mv;
     }
 }
