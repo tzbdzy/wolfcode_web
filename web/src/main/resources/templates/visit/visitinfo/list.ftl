@@ -18,7 +18,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <@sec.authenticate grants="cust:custlink:list">
+                <@sec.authenticate grants="visit:visitinfo:list">
 
                     <!-- 搜索条件start -->
                     <form class="layui-form layui-card-header layuiadmin-card-header-auto"
@@ -32,23 +32,6 @@
                                            class="layui-input">
                                 </div>
                             </div>
-
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">所属企业</label>
-                                    <div class="layui-input-block input-box">
-<#--                                        <input type="text" name="parameterName" placeholder="请输入"-->
-<#--                                               autocomplete="off"-->
-<#--                                               class="layui-input">-->
-
-                                        <select name="custId">
-                                            <option value="">--请选择--</option>
-                                            <#list custs as cust>
-                                                <option value="${cust.id}">${cust.customerName}</option>
-                                            </#list>
-                                        </select>
-                                    </div>
-                                </div>
-
 
                             <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-normal" id="SearchBtn"
@@ -68,24 +51,20 @@
 
                     <script type="text/html" id="List-toolbar">
                         <div class="layui-btn-container">
-                            <@sec.authenticate grants="cust:custlink:add">
+                            <@sec.authenticate grants="visit:visitinfo:add">
                                 <button class="layui-btn layui-btn-sm layui-btn-primary"
                                         lay-event="add"><i class="layui-icon">&#xe654;</i>新增
-                                </button>
-
-                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-tips="导出" lay-event="export">
-                                    <i class="layui-icon layui-icon-export"></i>导出
                                 </button>
                             </@sec.authenticate>
                         </div>
                     </script>
 
                     <script type="text/html" id="List-editBar">
-                        <@sec.authenticate grants="cust:custlink:update">
+                        <@sec.authenticate grants="visit:visitinfo:update">
                             <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="update"><i
                                         class="layui-icon">&#xe642;</i>修改</a>
                         </@sec.authenticate>
-                        <@sec.authenticate grants="cust:custlink:delete">
+                        <@sec.authenticate grants="visit:visitinfo:delete">
                             <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="delete"><i
                                         class="layui-icon">&#xe640;</i>删除</a>
                         </@sec.authenticate>
@@ -100,7 +79,6 @@
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
 <script src="${request.contextPath}/layui-extend.js"></script>
 <script src="${request.contextPath}/webjars/jquery/jquery.min.js"></script>
-<script src="${request.contextPath}/fileDownload/jquery.fileDownload.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/scripts/cust/custlink/list.js?_=${randomNum}"></script>
+<script type="text/javascript" src="${request.contextPath}/scripts/visit/visitinfo/list.js?_=${randomNum}"></script>
 </body>
 </html>

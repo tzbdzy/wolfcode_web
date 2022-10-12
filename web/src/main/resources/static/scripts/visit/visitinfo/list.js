@@ -10,7 +10,7 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
     //用户列表
     var tableIns = table.render({
         elem: '#List',
-        url: web.rootPath() + 'custlink/list',
+        url: web.rootPath() + 'visitinfo/list',
         cellMinWidth: 95,
         page: true,
         height: "full-" + Math.round(Number($('.layui-card-header').height()) + 44),
@@ -20,15 +20,13 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
         id: "ListTable",
         cols: [[
             {type: "checkbox", fixed: "left", width: 50},
-                    {field: 'id', title:  'id', minWidth: 100, align: "center"},
-                    {field: 'customerName', title: '所属企业', minWidth: 100, align: "center"},
-                    {field: 'linkman', title: '联系人名字', minWidth: 100, align: "center"},
-                    {field: 'sex', title: '性别 1 男 0 女', minWidth: 100, align: "center"},
-                    {field: 'age', title: '年龄', minWidth: 100, align: "center"},
-                    {field: 'phone', title: '联系人电话', minWidth: 100, align: "center"},
-                    {field: 'position', title: '职位', minWidth: 100, align: "center"},
-                    {field: 'department', title: '部门', minWidth: 100, align: "center"},
-                    {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
+                    {field: 'id', title: '唯一id', minWidth: 100, align: "center"},
+                    {field: 'custId', title: '客户id', minWidth: 100, align: "center"},
+                    {field: 'linkmanId', title: '联系人id', minWidth: 100, align: "center"},
+                    {field: 'visitType', title: '拜访方式, 1 上门走访, 2 电话拜访', minWidth: 100, align: "center"},
+                    {field: 'visitReason', title: '拜访原因', minWidth: 100, align: "center"},
+                    {field: 'content', title: '交流内容', minWidth: 100, align: "center"},
+                    {field: 'visitDate', title: '拜访时间', minWidth: 100, align: "center"},
                     {field: 'inputUser', title: '录入人', minWidth: 100, align: "center"},
                     {field: 'inputTime', title: '录入时间', minWidth: 100, align: "center"},
 
@@ -60,12 +58,10 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
         reload: function () {
             //获取搜索条件值
             var parameterName = $("#searchForm").find("input[name='parameterName']").val().trim();
-            var custId = $("#searchForm").find("select[name='custId']").val().trim();
             //表格重载
             tableIns.reload({
                 where: { //设定异步数据接口的额外参数，任意设
-                    parameterName: parameterName,
-                    custId:custId
+                    parameterName: parameterName
                 }
             });
         }
@@ -87,27 +83,7 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
                 title: '新增',
                 fixed: false,
                 maxmin: true,
-                content: web.rootPath() + 'custlink/add.html'
-            });
-        }
-
-        if(obj.event == 'export'){
-            var eix;
-            var parameterName = $("#searchForm").find("input[name='parameterName']").val().trim();
-            var custId = $("#searchForm").find("select[name='custId']").val().trim();
-            var url = web.rootPath() + 'custlink/export?parameterName=' + parameterName + '&custId=' + custId
-            $.fileDownload(url, {
-                httpMethod: 'POST',
-                prepareCallback: function (url) {
-                    eix = layer.load(2);
-                },
-                successCallback: function (url) {
-                    layer.close(eix)
-                },
-                failCallback: function (html, url) {
-                    layer.close(eix)
-                    layer.msg("导出失败", {icon: 2});
-                }
+                content: web.rootPath() + 'visitinfo/add.html'
             });
         }
         ;
@@ -125,7 +101,7 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
                     title: '修改',
                     fixed: false,
                     maxmin: true,
-                    content: web.rootPath() + "custlink/" + data.id + ".html?_"
+                    content: web.rootPath() + "visitinfo/" + data.id + ".html?_"
                 });
                 break;
             case 'delete':
@@ -133,7 +109,7 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
                     btn: ['确定', '取消'] //按钮
                 }, function () {
                     $.ajax({
-                        url: web.rootPath() + "custlink/delete/" + data.id,
+                        url: web.rootPath() + "visitinfo/delete/" + data.id,
                         type: "delete",
                         contentType: "application/json;charset=utf-8",
                         data: JSON.stringify(data.field),
