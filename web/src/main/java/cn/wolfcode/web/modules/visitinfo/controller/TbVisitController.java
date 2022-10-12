@@ -4,6 +4,9 @@ import cn.wolfcode.web.commons.entity.LayuiPage;
 import cn.wolfcode.web.commons.utils.LayuiTools;
 import cn.wolfcode.web.commons.utils.SystemCheckUtils;
 import cn.wolfcode.web.modules.BaseController;
+import cn.wolfcode.web.modules.custinfo.entity.TbCustomer;
+import cn.wolfcode.web.modules.custinfo.service.ITbCustomerService;
+import cn.wolfcode.web.modules.custlink.service.ITbCustLinkmanService;
 import cn.wolfcode.web.modules.log.LogModules;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +27,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * @author haiyang
  * @since 2022-10-11
@@ -35,6 +40,10 @@ public class TbVisitController extends BaseController {
     @Autowired
     private ITbVisitService entityService;
 
+    //客户业务类
+    @Autowired
+    private ITbCustomerService customerService;
+
     private static final String LogModule = "TbVisit";
 
     @GetMapping("/list.html")
@@ -45,6 +54,10 @@ public class TbVisitController extends BaseController {
     @RequestMapping("/add.html")
     @PreAuthorize("hasAuthority('visit:visitinfo:add')")
     public ModelAndView toAdd(ModelAndView mv) {
+        //获取所有企业客户信息，返回到页面上
+        List<TbCustomer> list = customerService.list();
+        mv.addObject("custs",list);
+
         mv.setViewName("visit/visitinfo/add");
         return mv;
     }

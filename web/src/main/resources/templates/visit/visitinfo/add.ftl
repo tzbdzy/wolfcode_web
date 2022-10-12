@@ -20,15 +20,14 @@
             <div class="layui-row layui-col-space10 layui-form-item">
 
                 <div class="layui-col-lg6">
-                        <label class="layui-form-label">唯一id</label>
+                        <label class="layui-form-label">所属企业</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="id"  placeholder="请输入"  autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-col-lg6">
-                        <label class="layui-form-label">客户id</label>
-                    <div class="layui-input-block">
-                        <input type="text"  name="custId"  placeholder="请输入"  autocomplete="off" class="layui-input">
+                        <select name="custId">
+                            <option>--请选择--</option>
+                            <#list custs as cust>
+                                <option value="${cust.id}">${cust.customerName}</option>
+                            </#list>
+                        </select>
                     </div>
                 </div>
                 <div class="layui-col-lg6">
