@@ -84,16 +84,15 @@ layui.use(['form', 'layer', 'table', 'laytpl', 'laydate'], function () {
         };
 
         if (obj.event == 'import'){
-            alert('kkkk')
             layer.open({
-                id: "userImport-frame",
+                id: "appdemoImport-frame",
                 type: 2,
                 resize: false,
                 area: ['400px', '350px'],
                 title: '导入用户',
                 fixed: false,
                 maxmin: false,
-                content: web.rootPath() + 'user/import.html?_' + new Date().getTime()
+                content: web.rootPath() + 'appdemo/import.html?_' + new Date().getTime()
             });
         }
 
