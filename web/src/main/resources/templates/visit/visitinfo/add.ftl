@@ -22,8 +22,8 @@
                 <div class="layui-col-lg6">
                         <label class="layui-form-label">所属企业</label>
                     <div class="layui-input-block">
-                        <select name="custId">
-                            <option>--请选择--</option>
+                        <select name="custId" lay-filter="customerSelect">
+                            <option value="">--请选择--</option>
                             <#list custs as cust>
                                 <option value="${cust.id}">${cust.customerName}</option>
                             </#list>
@@ -31,9 +31,13 @@
                     </div>
                 </div>
                 <div class="layui-col-lg6">
-                        <label class="layui-form-label">联系人id</label>
-                    <div class="layui-input-block">
-                        <input type="text"  name="linkmanId"  placeholder="请输入"  autocomplete="off" class="layui-input">
+                        <label class="layui-form-label">联系人</label>
+                    <div class="layui-input-block" >
+                        <#-- <input type="text"  name="linkmanId"  placeholder="请输入"  autocomplete="off" class="layui-input">-->
+
+                        <select name="linkmanId" id="linkman">
+                            <option value="">---请选择---</option>
+                        </select>
                     </div>
                 </div>
                 <div class="layui-col-lg6">

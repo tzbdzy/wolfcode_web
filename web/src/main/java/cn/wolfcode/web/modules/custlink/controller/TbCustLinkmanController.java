@@ -187,4 +187,28 @@ public class TbCustLinkmanController extends BaseController {
 
     }
 
+
+    /**
+     * 根据企业id查询联系人
+     * @param custId
+     * @return
+     */
+    @RequestMapping("listByCustomerId")
+    public ResponseEntity<ApiModel> listByCustomerId(String custId){
+
+        System.out.println("-----------"+custId);
+
+        //没有传递客户的情况,直接返回空的数据
+        if(StringUtils.isEmptyOrWhitespaceOnly(custId)){
+            return ResponseEntity.ok(ApiModel.ok());
+        }
+
+
+        List<TbCustLinkman> list = entityService.lambdaQuery()
+                .eq(TbCustLinkman::getCustId, custId).list();
+
+
+        return ResponseEntity.ok(ApiModel.data(list));
+    }
+
 }
