@@ -68,6 +68,12 @@
                             <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="delete"><i
                                         class="layui-icon">&#xe640;</i>删除</a>
                         </@sec.authenticate>
+
+
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="import"><i
+                                    class="layui-icon">&#xe67c;</i>导入
+                        </button>
+
                     </script>
                 </div>
                 <!-- 数据表格end -->
